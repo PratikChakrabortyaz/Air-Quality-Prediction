@@ -11,11 +11,9 @@ def load_and_preprocess_data(file_path):
     df.ffill(inplace=True)
     df.bfill(inplace=True)
 
-    # Rolling Mean Features for Temporal Understanding
     df['AQI_7d_avg'] = df['AQI'].rolling(window=7).mean().bfill()
     df['AQI_30d_avg'] = df['AQI'].rolling(window=30).mean().bfill()
 
-    # Encoding + Scaling
     city_encoder = LabelEncoder()
     df['City_encoded'] = city_encoder.fit_transform(df['City'])
 
@@ -25,7 +23,6 @@ def load_and_preprocess_data(file_path):
 
     target = 'AQI'
 
-    # Scaling
     scaler_features = MinMaxScaler()
     scaler_target = MinMaxScaler()
     
