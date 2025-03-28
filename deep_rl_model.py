@@ -7,9 +7,7 @@ from torch.distributions import Normal
 from sklearn.metrics import r2_score, mean_squared_error
 import time
 
-# ============================
-# PPO Agent Definition
-# ============================
+
 class PPO(nn.Module):
     def __init__(self, input_dim, hidden_dim=192):
         super(PPO, self).__init__()
@@ -26,9 +24,7 @@ class PPO(nn.Module):
         x = torch.relu(self.bn2(self.fc2(x).view(-1, self.hidden_dim)))
         return self.actor(x).squeeze(-1), self.critic(x).mean()
 
-# ============================
-# Custom Environment for AQI Prediction
-# ============================
+
 class AQIEnv(gym.Env):
     def __init__(self, data, seq_length):
         super(AQIEnv, self).__init__()
@@ -37,7 +33,6 @@ class AQIEnv(gym.Env):
         self.current_idx = 0
         self.max_steps = len(data) - seq_length
 
-        # Observation and Action Space
         self.observation_space = gym.spaces.Box(low=0, high=1, shape=(seq_length, data.shape[1] - 1), dtype=np.float32)
         self.action_space = gym.spaces.Box(low=0, high=1, shape=(1,), dtype=np.float32)
 
@@ -61,9 +56,7 @@ class AQIEnv(gym.Env):
     def _get_observation(self):
         return self.data[self.current_idx: self.current_idx + self.seq_length, :-1]
 
-# ============================
-# PPO Training Loop
-# ============================
+
 def train_ppo(env, model, optimizer, num_epochs=5, gamma=0.99, eps_clip=0.1):
     model.train()
     for epoch in range(num_epochs):
@@ -95,9 +88,7 @@ def train_ppo(env, model, optimizer, num_epochs=5, gamma=0.99, eps_clip=0.1):
 
         print(f"Epoch {epoch+1}/{num_epochs} | Total Reward: {total_reward:.4f}")
 
-# ============================
-# PPO Evaluation Function
-# ============================
+
 def evaluate_ppo(env, model):
     model.eval()
     obs = env.reset()
@@ -117,7 +108,6 @@ def evaluate_ppo(env, model):
             if done:
                 break
 
-    # Evaluate Performance
     test_r2 = r2_score(actuals, predictions)
     test_rmse = mean_squared_error(actuals, predictions, squared=False)
 
