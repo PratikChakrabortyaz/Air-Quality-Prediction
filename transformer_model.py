@@ -2,9 +2,7 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, Dataset
 
-# ============================
-# Transformer Model Definition
-# ============================
+
 class TransformerModel(nn.Module):
     def __init__(self, input_dim, hidden_dim, output_dim, num_layers=3, num_heads=4, dropout=0.2):
         super(TransformerModel, self).__init__()
