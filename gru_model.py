@@ -1,9 +1,7 @@
 import torch
 import torch.nn as nn
 
-# ============================
-# GRU Model Definition
-# ============================
+
 class GRUModel(nn.Module):
     def __init__(self, input_dim, hidden_dim, output_dim, num_layers=3, dropout=0.3):
         super(GRUModel, self).__init__()
