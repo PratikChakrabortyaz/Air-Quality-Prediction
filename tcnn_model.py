@@ -5,11 +5,8 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 from sklearn.metrics import r2_score, mean_squared_error
 
-# ============================
-# TCNN Block Definition
-# ============================
+
 class Chomp1d(nn.Module):
-    """Removes padding on the right side to ensure causal convolution."""
     def __init__(self, chomp_size):
         super(Chomp1d, self).__init__()
         self.chomp_size = chomp_size
@@ -39,9 +36,7 @@ class TCNNBlock(nn.Module):
     def forward(self, x):
         return self.relu(self.network(x) + self.residual(x))
 
-# ============================
-# TCNN Model Definition
-# ============================
+
 class TCNNModel(nn.Module):
     def __init__(self, input_dim, output_dim, num_channels, kernel_size=3, dropout=0.2):
         super(TCNNModel, self).__init__()
@@ -63,9 +58,7 @@ class TCNNModel(nn.Module):
         out = self.network(x)
         return self.fc(out[:, :, -1])  # Extract last time step
 
-# ============================
-# Training Function
-# ============================
+
 def train_tcnn(model, train_loader, optimizer, criterion, num_epochs=10):
     model.train()
     for epoch in range(num_epochs):
@@ -85,9 +78,7 @@ def train_tcnn(model, train_loader, optimizer, criterion, num_epochs=10):
 
         print(f"Epoch {epoch + 1}/{num_epochs} | Train Loss: {total_loss:.4f}")
 
-# ============================
-# Evaluation Function
-# ============================
+
 def evaluate_tcnn(model, test_loader):
     model.eval()
     actuals, predictions = [], []
