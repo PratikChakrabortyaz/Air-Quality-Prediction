@@ -4,9 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 import time
 
-# ============================
-# XGBoost Model Definition
-# ============================
+
 def train_and_evaluate_xgboost(X, y):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.15, random_state=42)
 
